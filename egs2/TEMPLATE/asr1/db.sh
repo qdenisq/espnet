@@ -30,6 +30,7 @@ LABOROTV=
 TEDXJP=
 LIBRISPEECH="/home/denis/bin/projects/PronounciationScore/data"
 MYST="/home/denis/bin/projects/PronounciationScore/data/myst"
+LIBRITTS=
 LJSPEECH=downloads
 JSSS=downloads
 JSUT=downloads
@@ -101,6 +102,7 @@ if [[ "$(hostname -d)" == clsp.jhu.edu ]]; then
     LABOROTV=
     TEDXJP=
     LIBRISPEECH=
+    LIBRITTS=
     LJSPEECH=downloads
     JSSS=downloads
     JSUT=downloads
