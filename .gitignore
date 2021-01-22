@@ -26,6 +26,9 @@ test_spm.model
 .vscode*
 *.vim
 *.swp
+egs2/librispeech/asr1/temp_audio
+temp_audio
+egs2/myst
 
 # recipe related
 egs*/*/*/data*

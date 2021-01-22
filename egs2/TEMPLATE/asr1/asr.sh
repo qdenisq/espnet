@@ -29,11 +29,11 @@ skip_data_prep=false # Skip data preparation stages.
 skip_train=false     # Skip training stages.
 skip_eval=false      # Skip decoding and evaluation stages.
 skip_upload=true     # Skip packing and uploading stages.
-ngpu=1               # The number of gpus ("0" uses cpu, otherwise use gpu).
+ngpu=3               # The number of gpus ("0" uses cpu, otherwise use gpu).
 num_nodes=1          # The number of nodes.
 nj=32                # The number of parallel jobs.
 inference_nj=32      # The number of parallel jobs in decoding.
-gpu_inference=false  # Whether to perform gpu decoding.
+gpu_inference=true #false # Whether to perform gpu decoding.
 dumpdir=dump         # Directory to dump features.
 expdir=exp           # Directory to save experiments.
 python=python3       # Specify python to execute espnet commands.
@@ -53,7 +53,7 @@ max_wav_duration=20  # Maximum duration in second.
 
 # Tokenization related
 token_type=bpe      # Tokenization type (char or bpe).
-nbpe=30             # The number of BPE vocabulary.
+nbpe=30           # The number of BPE vocabulary.
 bpemode=unigram     # Mode of BPE (unigram or bpe).
 oov="<unk>"         # Out of vocabulary symbol.
 blank="<blank>"     # CTC blank symbol
@@ -63,7 +63,7 @@ bpe_nlsyms=         # non-linguistic symbols list, separated by a comma, for BPE
 bpe_char_cover=1.0  # character coverage when modeling BPE
 
 # Language model related
-use_lm=true       # Use language model for ASR decoding.
+use_lm=false       # Use language model for ASR decoding.
 lm_tag=           # Suffix to the result dir for language model training.
 lm_exp=           # Specify the direcotry path for LM experiment.
                   # If this option is specified, lm_tag is ignored.
@@ -93,7 +93,7 @@ inference_config= # Config for decoding.
 inference_args=   # Arguments for decoding, e.g., "--lm_weight 0.1".
                   # Note that it will overwrite args in inference config.
 inference_lm=valid.loss.ave.pth       # Language modle path for decoding.
-inference_asr_model=valid.acc.ave.pth # ASR model path for decoding.
+inference_asr_model=valid.acc.ave_10best.pth # ASR model path for decoding.
                                       # e.g.
                                       # inference_asr_model=train.loss.best.pth
                                       # inference_asr_model=3epoch.pth
