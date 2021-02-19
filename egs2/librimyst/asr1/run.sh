@@ -5,9 +5,9 @@ set -e
 set -u
 set -o pipefail
 
-train_set="train_960"
+train_set="train_960_myst"
 valid_set="dev"
-test_sets="test_clean test_other dev_clean dev_other"
+test_sets="test_clean test_other dev_clean dev_other dev_myst test_myst"
 
 asr_config=conf/tuning/train_asr_conformer_1.yaml
 lm_config=conf/tuning/train_lm_adam.yaml

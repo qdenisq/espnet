@@ -1,0 +1,10 @@
+espnet: 0.9.2
+files:
+  asr_model_file: exp/asr_train_asr_conformer_raw_bpe_batch_bins30000000_accum_grad3_optim_conflr0.001_sp/valid.acc.ave_10best.pth
+  lm_file: exp/lm_train_lm_adam_bpe/valid.loss.ave.pth
+python: "3.7.3 (default, Mar 27 2019, 22:11:17) \n[GCC 7.3.0]"
+timestamp: 1605571176.41084
+torch: 1.4.0
+yaml_files:
+  asr_train_config: exp/asr_train_asr_conformer_raw_bpe_batch_bins30000000_accum_grad3_optim_conflr0.001_sp/config.yaml
+  lm_train_config: exp/lm_train_lm_adam_bpe/config.yaml
