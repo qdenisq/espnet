@@ -1,4 +1,4 @@
 lm_weight: 0.6
 ctc_weight: 0.4
-beam_size: 60
+beam_size: 30
 # inference_asr_model: "valid.acc.best.pth"

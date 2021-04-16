@@ -1,9 +1,10 @@
 init_param: 
-    - "/home/denis/bin/projects/ESPnet/espnet/egs2/librispeech/asr1/exp/asr_train_asr_conformer_1_raw_bpe5000_sp/valid.acc.best.pth:::normalize"
+    - "/home/denis/bin/projects/ESPnet/espnet/egs2/librispeech/asr1/exp/asr_DS_bpe_50/valid.acc.best.pth:::normalize"
+    # - "/home/denis/bin/projects/ESPnet/espnet/egs2/librispeech/asr1/exp/asr_train_asr_conformer_1_raw_bpe5000_sp/valid.acc.best.pth:::normalize"
 
 # This configuration requires 4 GPUs with 32GB memory
 batch_type: numel
-batch_bins: 7000000
+batch_bins: 5000000
 accum_grad: 10
 max_epoch: 60
 patience: none

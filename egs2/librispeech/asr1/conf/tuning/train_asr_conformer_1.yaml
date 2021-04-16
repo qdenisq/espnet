@@ -1,6 +1,6 @@
 # This configuration requires 4 GPUs with 32GB memory
 batch_type: numel
-batch_bins: 7000000
+batch_bins: 5000000
 accum_grad: 10
 max_epoch: 60
 patience: none
@@ -45,6 +45,9 @@ model_conf:
     ctc_weight: 0.3
     lsm_weight: 0.1
     length_normalized_loss: false
+
+ctc_conf:
+    ignore_nan_grad: True
 
 optim: adam
 optim_conf:
