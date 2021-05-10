@@ -31,7 +31,7 @@ from espnet2.utils.types import str_or_none
 # imports for CTC segmentation
 from ctc_segmentation import ctc_segmentation
 from ctc_segmentation import CtcSegmentationParameters
-from ctc_segmentation import determine_utterance_segments
+# from ctc_segmentation import determine_utterance_segments
 from ctc_segmentation import prepare_text
 from ctc_segmentation import prepare_token_list
 
@@ -392,16 +392,8 @@ class CTCSegmentation:
         # Apply ctc layer to obtain log character probabilities
         # print(enc.shape)
         # print(enc.unsqueeze(0).shape)
-        lpz = self.ctc.log_softmax(enc.unsqueeze(0)).detach()
-        #  Shape should be ( <time steps>, <classes> )
-        lpz = lpz.squeeze(0).squeeze(0).cpu().numpy()
-
-        # lpz = self.asr_model.ctc.log_softmax(enc)[0].cpu().numpy()
         lpz = self.ctc.log_softmax(enc)[0].cpu().numpy()
 
-
-        # plt.plot(lpz)
-        # plt.savefig("foo1.png")
         return lpz
 
     def _split_text(self, text):
@@ -496,6 +488,58 @@ class CTCSegmentation:
             result.name = name
         assert check_return_type(result)
         return result
+
+
+
+def determine_utterance_segments(config, utt_begin_indices, char_probs, timings, text):
+    """Utterance-wise alignments from char-wise alignments.
+
+    :param config: an instance of CtcSegmentationParameters
+    :param utt_begin_indices: list of time indices of utterance start
+    :param char_probs:  character positioned probabilities obtained from backtracking
+    :param timings: mapping of time indices to seconds
+    :param text: list of utterances
+    :return: segments, a list of: utterance start and end [s], and its confidence score
+    """
+
+    def compute_time(index, align_type):
+        """Compute start and end time of utterance.
+
+        :param index:  frame index value
+        :param align_type:  one of ["begin", "end"]
+        :return: start/end time of utterance in seconds
+        """
+        if align_type == "begin":
+            return timings[index + 1]
+        elif align_type == "end":
+            return timings[index]
+
+    segments = []
+    print(char_probs)
+    print("SCORE", np.exp(np.sum(char_probs)))
+    for i in range(len(text)):
+        start = compute_time(utt_begin_indices[i], "begin")
+        if i != len(text) - 1:
+            end = compute_time(utt_begin_indices[i + 1], "begin")
+        else:
+            end = (len(char_probs) - 1) * config.index_duration_in_seconds # assuming last token lasts until the end of audio
+
+        start_t = int(round(start / config.index_duration_in_seconds))
+        end_t = int(round(end / config.index_duration_in_seconds))
+
+        # Compute confidence score by using the min mean probability
+        #   after splitting into segments of L frames
+        n = config.score_min_mean_over_L
+        if end_t == start_t:
+            min_avg = 0
+        elif end_t - start_t <= n:
+            min_avg = char_probs[start_t:end_t].mean()
+        else:
+            min_avg = 0
+            for t in range(start_t, end_t - n):
+                min_avg = min(min_avg, char_probs[t : t + n].mean())
+        segments.append((start, end, min_avg))
+    return segments
 
 
 def ctc_align(
