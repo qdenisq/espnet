@@ -51,6 +51,8 @@ class Speech2Text:
         self,
         asr_train_config: Union[Path, str],
         asr_model_file: Union[Path, str] = None,
+        asr_model = None, # test bento ml
+        asr_train_args = None, # test bento ml
         lm_train_config: Union[Path, str] = None,
         lm_file: Union[Path, str] = None,
         token_type: str = None,
@@ -70,9 +72,10 @@ class Speech2Text:
 
         # 1. Build ASR model
         scorers = {}
-        asr_model, asr_train_args = ASRTask.build_model_from_file(
-            asr_train_config, asr_model_file, device
-        )
+        if asr_model is None:
+            asr_model, asr_train_args = ASRTask.build_model_from_file(
+                asr_train_config, asr_model_file, device
+            )
         asr_model.to(dtype=getattr(torch, dtype)).eval()
 
         decoder = asr_model.decoder
